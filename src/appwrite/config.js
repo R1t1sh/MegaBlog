@@ -26,7 +26,12 @@ export class Service{
                     featuredImage,
                     status,
                     userId,
-                }
+                },
+                [
+                    Permission.write(Role.users()), // Allow authenticated users to create
+                    Permission.read(Role.users()),   // Allow authenticated users to read
+                    Permission.update(Role.users())  // Allow authenticated users to update
+                ]
             )
         } catch (error) {
             console.log("Appwrite serive :: createPost :: error", error);
@@ -105,10 +110,9 @@ export class Service{
                 ID.unique(),
                 file,
               [   
-                    Permission.update(Role.user()),
-                    Permission.write(Role.user()),
-                    Permission.read(Role.users()),
-                    Permission.read(Role.guests())
+                    Permission.update(Role.users()),
+                    Permission.write(Role.users()),
+                    Permission.read(Role.any())
                 ]
             )
         } catch (error) {
